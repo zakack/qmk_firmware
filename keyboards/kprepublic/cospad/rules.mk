@@ -1,0 +1,3 @@
+BOOTLOADER = atmel-dfu
+KEY_LOCK_ENABLE = yes
+REPEAT_KEY_ENABLE = yes

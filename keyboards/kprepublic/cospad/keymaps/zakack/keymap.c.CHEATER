@@ -1,0 +1,107 @@
+#include QMK_KEYBOARD_H
+#define ONESHOT_TAP_TOGGLE 3
+#define ONESHOT_TIMEOUT 2000
+
+// Defines names for use in layer keycodes and the keymap
+enum layer_names {
+    _BL,
+    _FL
+};
+const uint8_t DELAY = 2;
+const uint8_t DOUBLE_TIME = 38;
+const uint16_t DOWN_KEY = KC_F13;
+const uint16_t UP_KEY = KC_F14;
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+    /* Keymap _BL: (Base Layer) Default Layer
+     * ,-------------------.
+     * |Esc |TAB | FN | BS |
+     * |----|----|----|----|
+     * | NL | /  | *  | -  |
+     * |----|----|----|----|
+     * | 7  | 8  | 9  |    |
+     * |----|----|----| +  |
+     * | 4  | 5  | 6  |    |
+     * |----|----|----|----|
+     * | 1  | 2  | 3  |    |
+     * |----|----|----| En |
+     * |   0     | .  |    |
+     * `-------------------'
+     */
+    [_BL] = LAYOUT_ortho_6x4(
+        KC_BSPC, KC_T,   MO(_FL), KC_LSFT,
+        KC_4,    KC_R,   KC_F, KC_RALT,
+        KC_3,    KC_E,   KC_D, KC_C,
+        KC_2,    KC_W,   KC_S, KC_X,
+        KC_1,    KC_Q,   KC_A, KC_Z,
+        KC_ESC,  KC_N,   KC_LGUI, KC_GRAVE
+    ),
+    /* Keymap _FL: Function Layer
+     * ,-------------------.
+     * |RGBT|    |    |    |
+     * |----|----|----|----|
+     * |RGBM|RGBP|BTOG|    |
+     * |----|----|----|----|
+     * |HUD |HUI |BON |    |
+     * |----|----|----|    |
+     * |SAD |SAI |BOFF|    |
+     * |----|----|----|----|
+     * |VAD |VAS |BSTP|    |
+     * `-------------------'
+    */
+    [_FL] = LAYOUT_ortho_6x4(
+        QK_BOOT, UG_TOGG, _______, QK_LOCK,
+        _______, _______, _______, _______,
+        _______, _______, _______, _______,
+        _______, _______, _______, _______,
+        _______, _______, _______, _______,
+        _______, _______, _______, _______
+    )
+};
+
+// Process all keycodes for double-tap F13/F14 behavior
+static uint16_t sticky_tracker;
+static uint16_t double_tracker;
+static uint16_t double_timer;
+
+uint16_t toggle(uint16_t keycode) {
+  if ((keycode == DOWN_KEY) || (!keycode)) {
+    unregister_code(DOWN_KEY);
+    keycode = UP_KEY;
+  } else {
+    unregister_code(UP_KEY);
+    keycode = DOWN_KEY;
+  }
+  wait_ms(DELAY);
+  register_code(keycode);
+  return keycode;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case KC_A ... KC_F12: //skip over F13 & F14
+    case KC_F15 ... KC_EXSEL: //exsel is the last one before the modifier keys
+      if (record->event.pressed) {
+        double_tracker++;
+        //wait_ms(DELAY);
+        sticky_tracker = toggle(sticky_tracker);
+        double_timer = record->event.time + DOUBLE_TIME;
+        register_code(keycode);
+        return false;
+      }
+      break;
+  }
+  return true;
+}
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case KC_A ... KC_F12: //skip over F13 & F14
+    case KC_F15 ... KC_EXSEL: //exsel is the last one before the modifier keys
+      if (!record->event.pressed) {
+        wait_ms(DELAY);
+        double_tracker--;
+        if ((double_tracker < 1) || !timer_expired(record->event.time, double_timer)) break;
+        sticky_tracker = toggle(sticky_tracker);
+  }
+}
+}

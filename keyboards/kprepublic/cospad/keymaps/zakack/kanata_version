@@ -1,0 +1,66 @@
+# Define virtual keycodes for GRAPE and BROCCOLI
+define_key GRAPE, vk_f13
+define_key BROCCOLI, vk_f14
+
+# Variables to track key states and timing
+tracked_keys =
+key1_press_time = 0
+key2_press_time = 0
+grape_state = false
+broccoli_state = false
+
+# Function to set virtual button state
+set_virtual_button_state(button, state) {
+  if button == GRAPE {
+    grape_state = state
+  } else if button == BROCCOLI {
+    broccoli_state = state
+  }
+  # kanata doesn't have direct key injection, so we'll use macros instead
+  if state {
+    press(button)
+  } else {
+    release(button)
+  }
+}
+
+# Event handler for key presses
+on keypress(key) {
+  # Update tracked keys and timestamps
+  if !tracked_keys.contains(key) {
+    tracked_keys.push(key)
+    if tracked_keys.length == 1 {
+      key1_press_time = time()
+    } else if tracked_keys.length == 2 {
+      key2_press_time = time()
+    }
+  }
+
+  # Determine virtual button state based on number of pressed keys
+  if tracked_keys.length == 1 {
+    # Single key pressed
+    if tracked_keys == key1 {  # Assuming key1 is defined elsewhere
+      set_virtual_button_state(GRAPE, true)
+      set_virtual_button_state(BROCCOLI, false)
+    } else {
+      set_virtual_button_state(GRAPE, false)
+      set_virtual_button_state(BROCCOLI, true)
+    }
+  } else if tracked_keys.length >= 2 {
+    # Two or more keys pressed, toggle virtual buttons
+    set_virtual_button_state(GRAPE, !grape_state)
+    set_virtual_button_state(BROCCOLI, !broccoli_state)
+  }
+}
+
+# Event handler for key releases
+on keyrelease(key) {
+  # Update tracked keys
+  tracked_keys.remove(key)
+
+  # Reset virtual button states if no keys are pressed
+  if tracked_keys.empty? {
+    set_virtual_button_state(GRAPE, false)
+    set_virtual_button_state(BROCCOLI, false)
+  }
+}
