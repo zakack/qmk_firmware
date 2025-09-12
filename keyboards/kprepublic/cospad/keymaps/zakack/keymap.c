@@ -12,8 +12,9 @@ enum custom_keycodes {
     CRD2,
     CRD3
 };
-const uint8_t DELAY = 1;
-const uint8_t HOLD_THRESHOLD = 38;
+const uint8_t DELAY = 0;
+// Was 38ms, going to try lowering it a bit
+const uint8_t HOLD_THRESHOLD = 32;
 const uint16_t GRAPE = KC_F13;      // 🍇 virtual button
 const uint16_t BROCCOLI = KC_F14;   // 🥦 virtual button
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -37,8 +38,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_ESC,   KC_F18,  KC_F19,  MO(_FL),
         KC_Q,    KC_W,   KC_E,   KC_R,
         KC_A,   KC_S,   KC_D, KC_F,
-        KC_Z,    KC_X,   KC_C,   KC_V,
-        KC_LSFT,  KC_RALT,   KC_LGUI, KC_LCTL
+        KC_Z,    KC_X,   KC_C,   KC_RALT,
+        KC_F,  KC_T,  KC_V, KC_LCTL
     ),
     /* Keymap _FL: Function Layer
      * ,-------------------.
@@ -114,7 +115,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case CRD1:
             if (record->event.pressed) {
-                SEND_STRING("#!C@NDYisDandybutL1QUORisKwicker$"SS_TAP(X_ENTER));
+                SEND_STRING("ie\%i!Z&4C*L=+4p"SS_TAP(X_ENTER));
             }
             break;
         case CRD2:
