@@ -15,7 +15,8 @@ enum custom_keycodes {
 const uint8_t DELAY = 0;
 // Was 38ms, going to try lowering it a bit
 // 32ms seemed better. Going for 22ms...
-const uint8_t HOLD_THRESHOLD = 22;
+// 22ms was a bit too fast. Settling on 24ms
+const uint8_t HOLD_THRESHOLD = 24;
 const uint16_t GRAPE = KC_F13;      // 🍇 virtual button
 const uint16_t BROCCOLI = KC_F14;   // 🥦 virtual button
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
