@@ -14,7 +14,8 @@ enum custom_keycodes {
 };
 const uint8_t DELAY = 0;
 // Was 38ms, going to try lowering it a bit
-const uint8_t HOLD_THRESHOLD = 32;
+// 32ms seemed better. Going for 22ms...
+const uint8_t HOLD_THRESHOLD = 22;
 const uint16_t GRAPE = KC_F13;      // 🍇 virtual button
 const uint16_t BROCCOLI = KC_F14;   // 🥦 virtual button
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -82,7 +83,7 @@ void set_virtual_button_state(bool grape_state, bool broccoli_state) {
         else if (grape_state) register_code(GRAPE);
         grape_down = grape_state;
     }
-    wait_ms(DELAY);
+    //wait_ms(DELAY);
     if (broccoli_down != broccoli_state) {
         if (broccoli_down) unregister_code(BROCCOLI);
         else if (broccoli_state) register_code(BROCCOLI);
