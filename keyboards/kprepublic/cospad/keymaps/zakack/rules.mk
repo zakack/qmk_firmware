@@ -1,0 +1,4 @@
+OPT = 's'
+LTO_ENABLE = yes
+KEY_LOCK_ENABLE = no
+REPEAT_KEY_ENABLE = no

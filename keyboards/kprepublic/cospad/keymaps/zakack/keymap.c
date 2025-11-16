@@ -2,8 +2,8 @@
 
 // Defines names for use in layer keycodes and the keymap
 enum layer_names {
-    _BL,
-    _FL
+    _BL
+    // _FL
 };
 
 const uint16_t GRAPE = KC_F13;      // \U0001f347 virtual button
@@ -13,19 +13,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BL] = LAYOUT_ortho_6x4(
         KC_NO,    KC_F10,  KC_F11,  KC_F12,
         KC_ESC,   KC_F8,   KC_F9,   KC_R,
-        KC_Q,     KC_W,    KC_E,    MO(_FL),
+        KC_Q,     KC_W,    KC_E,    QK_BOOT,
         KC_A,     KC_S,    KC_D,    KC_F,
         KC_Z,     KC_X,    KC_C,    KC_H,
         KC_F,     KC_T,    KC_V,    KC_ENTER
-    ),
-    [_FL] = LAYOUT_ortho_6x4(
-        _______,  UG_TOGG, _______, QK_LOCK,
-        QK_BOOT,  _______, _______, QK_BOOT,
-        RGB_HUI,  RGB_SAI, RGB_VAD, _______,
-        RGB_RMOD, RGB_TOG, RGB_MOD, _______,
-        RGB_HUD,  RGB_SAD, RGB_VAI, _______,
-        _______,  _______, _______, _______
     )
+    // [_FL] = LAYOUT_ortho_6x4(
+    //     _______,  UG_TOGG, _______, QK_LOCK,
+    //     QK_BOOT,  _______, _______, QK_BOOT,
+    //     RGB_HUI,  RGB_SAI, RGB_VAD, _______,
+    //     RGB_RMOD, RGB_TOG, RGB_MOD, _______,
+    //     RGB_HUD,  RGB_SAD, RGB_VAI, _______,
+    //     _______,  _______, _______, _______
+    // )
 };
 
 static uint16_t last_key1 = 0;      // First tracked physical key
