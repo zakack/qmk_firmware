@@ -11,7 +11,7 @@ const uint16_t BROCCOLI = KC_F14;   // \U0001f966 virtual button
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BL] = LAYOUT_ortho_6x4(
-        KC_NO,    KC_F10,  KC_F11,  KC_F12,
+        KC_SPACE,    KC_F10,  KC_F11,  KC_F12,
         KC_ESC,   KC_F8,   KC_F9,   KC_R,
         KC_Q,     KC_W,    KC_E,    QK_BOOT,
         KC_A,     KC_S,    KC_D,    KC_F,

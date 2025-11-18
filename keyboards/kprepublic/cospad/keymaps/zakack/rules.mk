@@ -2,3 +2,5 @@ OPT = 's'
 LTO_ENABLE = yes
 KEY_LOCK_ENABLE = no
 REPEAT_KEY_ENABLE = no
+RGBLIGHT_ENABLE = no
+DEBOUNCE_TYPE = asym_eager_defer_pk
