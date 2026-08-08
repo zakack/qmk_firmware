@@ -1,4 +1,4 @@
-#define DEBOUNCE 2
+//#define DEBOUNCE 1
 #define MATRIX_IO_DELAY 0
 #define NO_ACTION_MACRO
 #define USB_POLLING_INTERVAL_MS 1

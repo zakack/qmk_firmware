@@ -16,7 +16,6 @@
 
 #pragma once
 
-#include "quantum.h"
 
 // Add backwards compatibility for existing keymaps
 #define cospad_bl_led_on   backlight_enable
